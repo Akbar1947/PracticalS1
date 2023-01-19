@@ -1,0 +1,42 @@
+import java.io.*;
+import java.net.*;
+public class UDP_EvenOdd_Client 
+{
+
+    
+    public static void main(String[] args) 
+    {
+        try
+        {
+            int port = 8888;
+            DatagramSocket ds = new DatagramSocket(port);
+            while(true)
+            {
+                BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("enter the number:");
+                String num = br.readLine();
+                
+                byte b[]= new byte[1024];
+                b=num.getBytes();
+                InetAddress addr=InetAddress.getLocalHost();
+                DatagramPacket dp1 = new DatagramPacket(b,b.length,addr, 7777);
+                ds.send(dp1);
+                if(num.equals("end"))
+                {
+                    System.exit(0);
+                }
+                
+                byte b1[]=new byte[1024];
+                DatagramPacket dp2 = new DatagramPacket(b1,b1.length);
+                ds.receive(dp2);
+                String str = new String(dp2.getData(),0,dp2.getLength());
+                System.out.println("response from server: "+str);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error"+ e.getMessage());
+        }
+    }
+    
+}
