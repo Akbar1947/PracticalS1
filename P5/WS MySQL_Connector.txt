@@ -1,0 +1,51 @@
+Implementing web services that connects to mySQL database:
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.me.InsertDataWS;
+
+import javax.jws.Oneway;
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import java.sql.*;
+
+/**
+ *
+ * @author HP
+ */
+import java.sql.DriverManager;
+@WebService(serviceName = "InsertDataWS")
+public class InsertDataWS {
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "insertrows")
+    public String insertroes(@WebParam(name = "id") int id, @WebParam(name = "name") String name, @WebParam(name = "sal") int sal) {
+        //TODO write your implementation code here
+        String str = "";
+        try 
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            String path = "jdbc:mysql://localhost/wsdb";
+            Connection con = DriverManager.getConnection(path,"root","root");
+            Statement st = con.createStatement();
+            
+    String query = "insert into employee values" +"('"+id+"','"+name+"','"+sal+"')";
+            st.execute(query);
+            str = "record inserted";
+            
+            
+            
+        } catch (Exception e) {
+            
+            str = e.toString();
+        }
+        
+        return str;
+    }
+
+}

@@ -1,0 +1,32 @@
+    @WebMethod(operationName = "factorial")
+    public double factorial(@WebParam(name = "num") int num) {
+        //TODO write your implementation code here:
+        
+        double f = 1;
+        for(int i=1;i<num;i++)
+        {
+            f = f*i;
+        }
+        
+        return f;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "reverse")
+    public double reverse(@WebParam(name = "num") int num) {
+        //TODO write your implementation code here:
+        int rev = 0;
+        while (num>0)
+        {
+            int r = num % 10;
+            rev = rev * 10 + r;
+            num = num / 10;
+        }
+        
+        return rev;
+    }
+
+
+    }
