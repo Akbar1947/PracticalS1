@@ -1,0 +1,43 @@
+
+package webservice_cal_client;
+
+
+public class WebService_Cal_Client {
+
+  
+    public static void main(String[] args) {
+        
+        int i = 20;
+        int j = 5;
+        System.out.println("Addition = " +add(i, j));
+        System.out.println("Subtraction = " +sub(i, j));
+        System.out.println("Multiplication = " +mult(i, j));
+        System.out.println("Division = " +div(i, j));
+    }
+
+    private static double add(int n1, int n2) {
+        com.my.calculatorws.CalculatorWS_Service service = new com.my.calculatorws.CalculatorWS_Service();
+        com.my.calculatorws.CalculatorWS port = service.getCalculatorWSPort();
+        return port.add(n1, n2);
+    }
+
+    private static double sub(int n1, int n2) {
+        com.my.calculatorws.CalculatorWS_Service service = new com.my.calculatorws.CalculatorWS_Service();
+        com.my.calculatorws.CalculatorWS port = service.getCalculatorWSPort();
+        return port.sub(n1, n2);
+    }
+
+    private static double mult(int n1, int n2) {
+        com.my.calculatorws.CalculatorWS_Service service = new com.my.calculatorws.CalculatorWS_Service();
+        com.my.calculatorws.CalculatorWS port = service.getCalculatorWSPort();
+        return port.mult(n1, n2);
+    }
+
+    private static double div(int n1, int n2) {
+        com.my.calculatorws.CalculatorWS_Service service = new com.my.calculatorws.CalculatorWS_Service();
+        com.my.calculatorws.CalculatorWS port = service.getCalculatorWSPort();
+        return port.div(n1, n2);
+    }
+    
+    
+}
