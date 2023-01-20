@@ -1,0 +1,43 @@
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
+public class BroadCast_Client {
+
+   
+    public static void main(String[] args) 
+    {
+        try
+        {
+            int PORT = 1234;
+            MulticastSocket socket;
+            DatagramPacket packet;
+            InetAddress address;
+            
+            // set the mulitcast address to your local subnet 
+            address = InetAddress.getByName("239.1.2.3");
+            socket = new MulticastSocket(PORT);
+            
+            //join a Multicast group and wait for a message
+            socket.joinGroup(address);
+            byte[] data = new byte[100];
+            
+            
+            packet = new DatagramPacket(data,data.length);
+            for(;;)
+            {
+                // receive the packets 
+                socket.receive(packet);
+                
+                String str = new String(packet.getData());
+                System.out.println("Message Received from"+packet.getAddress()+"Message is : "+str);
+            }
+        }
+        
+        catch(Exception e)
+        {
+            System.out.println("Error :" + e.getMessage());
+        }
+    }
+    
+}

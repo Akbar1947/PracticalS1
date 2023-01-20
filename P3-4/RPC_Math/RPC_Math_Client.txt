@@ -1,0 +1,45 @@
+import java.io.*;
+import java.net.*;
+public class RPC_Math_Client 
+{
+    public static void main(String[] args) 
+    {
+        try 
+        {
+            //To establish connection
+            int port = 8888;
+            DatagramSocket ds = new DatagramSocket(port);
+            
+           //To make it Iterative 
+           while(true)
+           {
+            BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Enter The Method name and Parameter like square 2 ");
+            String str1 = br1.readLine();
+            
+            // To create and send DatagramPacket
+            byte b1[] = new byte[1024];
+            b1 = str1.getBytes();
+            InetAddress addr = InetAddress.getLocalHost();
+            DatagramPacket dp1 = new DatagramPacket(b1,b1.length,addr,7777);
+            ds.send(dp1);
+            
+            //To end/exit the process
+            if(str1.equalsIgnoreCase("end"))
+            {
+                System.exit(0);
+            }
+            //To receive the data packet
+            byte b2[] = new byte[1024];
+            DatagramPacket dp2 = new DatagramPacket(b2, b2.length);
+            ds.receive(dp2);
+            String res = new String(dp2.getData(),0,dp2.getLength());
+            System.out.println("Response From Server :" + res); 
+           }
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Error :" + e.getMessage());
+        }
+    }
+}

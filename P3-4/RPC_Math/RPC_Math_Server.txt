@@ -1,0 +1,102 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+public class RPC_Math_Server 
+{   
+    public static void main(String[] args) 
+    {
+        try 
+        {
+            //To establish connection
+            int port = 7777;
+            DatagramSocket ds = new DatagramSocket(port);
+            System.out.println("Waiting for Client");
+            
+            //To make it Iterative 
+            while(true)
+            {
+            
+            // To receive Datagram Packet
+            byte b1[] = new byte[1024];
+            DatagramPacket dp1 = new DatagramPacket(b1, b1.length);
+            ds.receive(dp1);
+            
+            //to type cast i.e to convert into string
+            String req = new String(dp1.getData(),0,dp1.getLength());
+            System.out.println("Request From Client :" + req);
+            
+            //To end/exit the process
+            if(req.equalsIgnoreCase("end"))
+            {
+                System.exit(0);
+            }
+            
+            //To split we use tokenizer
+            StringTokenizer st = new StringTokenizer(req," ");
+            int i=0;
+            String methodname="";
+            int n1=0;
+            while(st.hasMoreTokens())
+            {
+                methodname = st.nextToken();
+                n1 = Integer.parseInt(st.nextToken());
+            }
+            System.out.println("Method Name :" + methodname);
+            System.out.println("n1 =" + n1);
+            String result = " ";
+            
+            //Maths Logic
+            if(methodname.equalsIgnoreCase("Square"))
+            {
+                result = " " + Square(n1);
+            }
+            else if(methodname.equalsIgnoreCase("SquareRoot"))
+            {
+                result = " " + SquareRoot(n1);
+            }
+            else if(methodname.equalsIgnoreCase("Cube"))
+            {
+                result = " " + Cube(n1);
+            }
+            else if(methodname.equalsIgnoreCase("CubeRoot"))
+            {
+                result = " " + CubeRoot(n1);
+            }
+            else
+            {
+                result = "Invalid Method name";
+            }
+            
+            //To send Datagram Packet
+            byte b2[] = new byte[1024];
+            b2 = result.getBytes();
+            InetAddress addr = InetAddress.getLocalHost();
+            DatagramPacket dp2 = new DatagramPacket(b2,b2.length,addr,8888);
+            ds.send(dp2);
+            }
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Error :" + e.getMessage());
+        }
+    }
+    
+    //Creating Procedures
+    public static int Square(int n1)
+    {
+        return (n1*n1);
+    }
+    public static double SquareRoot(int n1)
+    {
+        return (Math.sqrt(n1));
+    }
+    public static int Cube(int n1)
+    {
+        return (n1*n1*n1);
+    }
+    public static double CubeRoot(int n1)
+    {
+        return (Math.cbrt(n1));
+    }
+    
+}
